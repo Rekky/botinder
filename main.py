@@ -1,15 +1,22 @@
 from src.tinder import Tinder
+from src.lovoo import Lovoo
 from src.fotocasa import Fotocasa
 
 
 CHROME_DRIVER = './chrome_driver/chromedriver.exe'
 TINDER_URL = 'https://tinder.com/app/recs'
+LOVOO_URL = 'https://es.lovoo.com/'
 FOTOCASA_URL = 'https://www.fotocasa.es/es/alquiler/viviendas/barcelona-capital/todas-las-zonas/l?gridType=list&combinedLocationIds=724,9,8,232,376,8019,0,0,0&latitude=41.3854&longitude=2.17754&maxPrice=1400&minRooms=3'
 
 
 def run_tinder():
     tinder = Tinder(TINDER_URL, CHROME_DRIVER)
     tinder.run_like_sequence('611400206', 1000000)
+
+
+def run_lovoo():
+    lovoo = Lovoo(LOVOO_URL, CHROME_DRIVER)
+    lovoo.run_like_sequence('611400206', 1000000)
 
 
 def run_fotocasa():
