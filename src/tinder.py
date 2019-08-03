@@ -1,7 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from datetime import date
-from src.DB import *
 import time
 
 
