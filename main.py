@@ -9,10 +9,10 @@ LOVOO_URL = 'https://es.lovoo.com/'
 def run_tinder():
     tinder = Tinder(TINDER_URL, CHROME_DRIVER)
     # Using phone number account
-    tinder.run_like_sequence_by_phone('611400206', 50000)
+    # tinder.run_like_sequence_by_phone('123456789', 50000)
 
     # Using facebook account
-    # tinder.run_sequence_by_facebook(50000)
+    tinder.run_sequence_by_facebook(50000)
 
 
 def run_lovoo():
