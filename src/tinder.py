@@ -1,17 +1,23 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from datetime import date
+from src.DB import *
 import time
 
 
 class Tinder:
     url: str = None
     driver = None
+    total_likes: int = 0
+    current_likes: int = 0
 
     def __init__(self, url: str, driver_path: str):
         self.url = url
-        self.driver = webdriver.Chrome(driver_path)
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--disable-notifications")
+        self.driver = webdriver.Chrome(driver_path, 0, chrome_options)
 
-    def run_like_sequence(self, telf: str, likes_limit: int):
+    def run_like_sequence_by_phone(self, telf: str, likes_limit: int = 1000):
         self.driver.get(self.url)
         self.driver.implicitly_wait(10)
 
@@ -23,28 +29,30 @@ class Tinder:
         input_telf.send_keys(Keys.ENTER)
 
         self.driver.implicitly_wait(50)
+        self.run_likes_sequence(likes_limit)
+        print("FINISHED")
 
-        button_permitir = self.driver.find_element_by_css_selector("button[aria-label='Permitir']")
-        button_permitir.click()
+    def run_sequence_by_facebook(self, likes_limit: int = 1000):
+        self.driver.get(self.url)
+        self.driver.implicitly_wait(10)
 
-        button_habilitar = self.driver.find_element_by_css_selector("button[aria-label='Habilitar']")
-        button_habilitar.click()
+        button = self.driver.find_element_by_css_selector("button[aria-label='Inicia sesión con Facebook']")
+        button.click()
 
         self.driver.implicitly_wait(50)
-        like_count = 0
-        print('INICIANDO LIKES SEQUENCES')
+        self.run_likes_sequence(likes_limit)
+        print("FINISHED")
 
+    def run_likes_sequence(self, likes_limit: int):
         for x in range(0, likes_limit):
-
             try:
                 button = self.driver.find_element_by_css_selector("button[aria-label='Me gusta']")
                 button.click()
-                time.sleep(1)
-                like_count = like_count + 1
-                print("Like_count: " + like_count)
+
+                self.current_likes = x
+                print("Like_count: " + str(self.current_likes))
+                time.sleep(0.3)
             except Exception as e:
                 self.driver.find_element_by_css_selector("button[data-testid='addToHomeScreen']")
                 button_add = self.driver.find_element_by_css_selector("button[data-testid='addToHomeScreen']")
                 button_add.click()
-
-        print("TERMINO TODO CORRECTO")

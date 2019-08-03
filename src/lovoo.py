@@ -9,42 +9,36 @@ class Lovoo:
 
     def __init__(self, url: str, driver_path: str):
         self.url = url
-        self.driver = webdriver.Chrome(driver_path)
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--disable-notifications")
+        self.driver = webdriver.Chrome(driver_path, 0, chrome_options)
 
-    def run_like_sequence(self, telf: str, likes_limit: int):
+    def run_like_sequence(self, email: str, password: str, likes_limit: int):
         self.driver.get(self.url)
         self.driver.implicitly_wait(10)
 
-        button = self.driver.find_element_by_css_selector("button[aria-label='Iniciar sesión con nº de teléfono']")
+        button = self.driver.find_element_by_css_selector("button[data-automation-id='login-button']")
         button.click()
 
-        input_telf = self.driver.find_element_by_css_selector("input[name='phone_number']")
-        input_telf.send_keys(telf)
-        input_telf.send_keys(Keys.ENTER)
+        input_email = self.driver.find_element_by_css_selector("input[data-automation-id='login-enter-email-input']")
+        input_email.send_keys(email)
+        input_pass = self.driver.find_element_by_css_selector("input[data-automation-id='login-enter-password-input']")
+        input_pass.send_keys(password)
+        input_pass.send_keys(Keys.ENTER)
 
-        self.driver.implicitly_wait(50)
+        link_play = self.driver.find_element_by_css_selector("a[href='/match']")
+        link_play.click()
 
-        button_permitir = self.driver.find_element_by_css_selector("button[aria-label='Permitir']")
-        button_permitir.click()
-
-        button_habilitar = self.driver.find_element_by_css_selector("button[aria-label='Habilitar']")
-        button_habilitar.click()
-
-        self.driver.implicitly_wait(50)
-        like_count = 0
         print('INICIANDO LIKES SEQUENCES')
 
         for x in range(0, likes_limit):
-
             try:
-                button = self.driver.find_element_by_css_selector("button[aria-label='Me gusta']")
-                button.click()
-                time.sleep(1)
-                like_count = like_count + 1
-                print("Like_count: " + like_count)
+                print("LOVOO LIKES: " + str(x))
+                button_like = self.driver.find_element_by_css_selector("span[data-automation-id='vote-yes-button']")
+                button_like.click()
+
+                time.sleep(0.7)
             except Exception as e:
-                self.driver.find_element_by_css_selector("button[data-testid='addToHomeScreen']")
-                button_add = self.driver.find_element_by_css_selector("button[data-testid='addToHomeScreen']")
-                button_add.click()
+                print("ERROR:" + str(e))
 
         print("TERMINO TODO CORRECTO")
