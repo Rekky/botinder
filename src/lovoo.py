@@ -6,6 +6,7 @@ import time
 class Lovoo:
     url: str = None
     driver = None
+    current_likes = 0
 
     def __init__(self, url: str, driver_path: str):
         self.url = url
@@ -13,7 +14,7 @@ class Lovoo:
         chrome_options.add_argument("--disable-notifications")
         self.driver = webdriver.Chrome(driver_path, 0, chrome_options)
 
-    def run_like_sequence(self, email: str, password: str, likes_limit: int):
+    def run_like_sequence_by_account(self, email: str, password: str, likes_limit: int = 1000):
         self.driver.get(self.url)
         self.driver.implicitly_wait(10)
 
@@ -29,8 +30,9 @@ class Lovoo:
         link_play = self.driver.find_element_by_css_selector("a[href='/match']")
         link_play.click()
 
-        print('INICIANDO LIKES SEQUENCES')
+        self.run_like_sequence(likes_limit)
 
+    def run_like_sequence(self, likes_limit: int):
         for x in range(0, likes_limit):
             try:
                 print("LOVOO LIKES: " + str(x))
@@ -41,4 +43,4 @@ class Lovoo:
             except Exception as e:
                 print("ERROR:" + str(e))
 
-        print("TERMINO TODO CORRECTO")
+        print("FINISHED")
