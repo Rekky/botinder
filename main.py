@@ -2,15 +2,18 @@ import os
 from src.tinder import Tinder
 from src.lovoo import Lovoo
 
-DRIVER_PATH = os.path.abspath("./drivers/chromedriver.exe")
-# DRIVER_PATH = os.path.abspath('./drivers/geckodriver.exe')
-TINDER_URL = 'https://tinder.com/app/recs'
-LOVOO_URL = 'https://es.lovoo.com/'
+# WINDOWS DRIVER
+DRIVER_PATH = os.path.abspath("./drivers/windows/chromedriver.exe")
+# DRIVER_PATH = os.path.abspath('./drivers/windows/geckodriver.exe')
+
+# MACOS DRIVER
+# DRIVER_PATH = os.path.abspath("./drivers/macos/chromedriver")
+# DRIVER_PATH = os.path.abspath("./drivers/macos/geckodriver")
 
 
 def run_tinder():
-    tinder = Tinder(TINDER_URL, DRIVER_PATH, 'chrome')
-    # Uncomment for using phone number account
+    URL: str = 'https://tinder.com/app/recs'
+    tinder = Tinder(URL, DRIVER_PATH, 'chrome')
     tinder.run_like_sequence_by_phone('611400206', 50000)
 
     # Uncomment for using facebook account
@@ -18,9 +21,9 @@ def run_tinder():
 
 
 def run_lovoo():
-    return True
-    # lovoo = Lovoo(LOVOO_URL, DRIVER_PATH)
-    # lovoo.run_like_sequence_by_account('ziroustyle@gmail.com', '', 1000000)
+    URL: str = 'https://es.lovoo.com/'
+    lovoo = Lovoo(URL, DRIVER_PATH)
+    lovoo.run_like_sequence_by_account('testeo@gmail.com', '', 1000000)
 
 
 if __name__ == '__main__':
