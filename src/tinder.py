@@ -16,7 +16,7 @@ class Tinder:
             print('browser = chrome')
             options = webdriver.ChromeOptions()
             options.add_argument("--disable-notifications")
-            self.driver = webdriver.Chrome(driver_path, 0, options)
+            self.driver = webdriver.Chrome(driver_path + '/chromedriver.exe', 0, options)
 
         if driver_type == 'firefox':
             print('browser = firefox')
@@ -26,7 +26,7 @@ class Tinder:
             options.binary = binary
             cap = DesiredCapabilities().FIREFOX
             cap["marionette"] = True
-            self.driver = webdriver.Firefox(firefox_options=options, capabilities=cap, executable_path=driver_path)
+            self.driver = webdriver.Firefox(firefox_options=options, capabilities=cap, executable_path=driver_path + '/geckodriver.exe')
 
     def run_like_sequence_by_phone(self, telf: str, likes_limit: int = 1000):
         self.driver.get(self.url)
@@ -57,6 +57,13 @@ class Tinder:
     def run_likes_sequence(self, likes_limit: int):
         likes: int = 0
         self.driver.implicitly_wait(50)
+
+        try:
+            notif = self.driver.find_element_by_css_selector("div.onboarding__modal button[aria-label='Permitir']")
+            notif.click()
+            self.driver.implicitly_wait(50)
+        except Exception as e:
+            print('Permitir allow')
 
         for x in range(0, likes_limit):
             try:

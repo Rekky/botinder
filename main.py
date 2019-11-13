@@ -3,17 +3,15 @@ from src.tinder import Tinder
 from src.lovoo import Lovoo
 
 # WINDOWS DRIVER
-# DRIVER_PATH = os.path.abspath("./drivers/windows/chromedriver.exe")
-DRIVER_PATH = os.path.abspath('./drivers/windows/geckodriver.exe')
+DRIVER_PATH = os.path.abspath("./drivers/windows/")
 
 # MACOS DRIVER
-# DRIVER_PATH = os.path.abspath("./drivers/macos/chromedriver")
-# DRIVER_PATH = os.path.abspath("./drivers/macos/geckodriver")
+# DRIVER_PATH = os.path.abspath("./drivers/macos/")
 
 
 def run_tinder():
     URL: str = 'https://tinder.com/app/recs'
-    tinder = Tinder(URL, DRIVER_PATH, 'firefox')
+    tinder = Tinder(URL, DRIVER_PATH, 'chrome')
     tinder.run_like_sequence_by_phone('611400206', 50000)
 
     # Uncomment for using facebook account
