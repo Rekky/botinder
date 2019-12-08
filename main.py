@@ -11,11 +11,17 @@ DRIVER_PATH = os.path.abspath("./drivers/windows/")
 
 def run_tinder(sequence_mode: str = str(1)):
     URL: str = 'https://tinder.com/app/recs'
-    tinder = Tinder(URL, DRIVER_PATH, 'chrome')
 
     if sequence_mode == str(1):
-        tinder.run_like_sequence_by_phone('611400206', 50000)
+        print("======TINDER=======")
+        print("Enter you phone number")
+        print("===================")
+        phone = input()
+
+        tinder = Tinder(URL, DRIVER_PATH, 'chrome')
+        tinder.run_like_sequence_by_phone(str(phone), 50000)
     elif sequence_mode == str(2):
+        tinder = Tinder(URL, DRIVER_PATH, 'chrome')
         tinder.run_sequence_by_facebook(50000)
 
 
